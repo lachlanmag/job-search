@@ -1,0 +1,27 @@
+# Application tracker
+# Status: discovered | shortlisted | applied | interview | rejected | withdrawn | offer | closed
+# industry: label from config.yaml industry_labels
+# resume_fit: strong | good | stretch | weak — separate from industry ★/⚠ flags
+# resume_fit_note: one line — why it aligns (or doesn't) with your resume
+#
+# channel (optional, set when applied): direct | company_site | seek | linkedin | recruiter | referral
+# recruiter_id: optional link to data/recruiters.yaml id when placed via recruiter
+# resume_status (optional): none | draft | ready — materials prepared but not yet submitted
+
+applications:
+  # Example row (delete or replace when you start tracking):
+  # - id: acme-pm-example-2026-06
+  #   company: Acme Corp
+  #   title: Product Manager
+  #   industry: B2B SaaS
+  #   resume_fit: good
+  #   resume_fit_note: PM on B2B platform; enterprise customers and roadmap ownership
+  #   location: Sydney
+  #   work_model: hybrid
+  #   role_type: Product Manager
+  #   url: https://jobs.lever.co/acme/example-job-id
+  #   source: daily search
+  #   status: discovered
+  #   discovered: 2026-06-26
+  #   applied: null
+  #   notes: "Example only — remove before first real run"

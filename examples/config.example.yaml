@@ -1,0 +1,200 @@
+# Job search criteria — copy to data/config.yaml and customize
+# Run: bash scripts/init-data.sh
+
+profile:
+  resume_path: /path/to/your/master-resume.md  # local only; never commit
+  location: Your City, State
+  willing_to_relocate: false
+
+role_priority:
+  - Product Manager
+  - Senior Product Manager
+  - Product Owner
+  - Senior Product Owner
+  - Business Analyst
+  - Senior Business Analyst
+
+location_rules:
+  # Local metro roles: hybrid or on-site acceptable
+  local:
+    include_hybrid: true
+    include_on_site: true
+    include_remote: true
+  # Outside your metro: remote only
+  outside_local:
+    require_remote: true
+
+preferences:
+  industry: B2B SaaS preferred; B2C SaaS acceptable
+  industry_focus: null  # e.g. Healthtech — highlighted in daily reports when set
+  work_model: hybrid preferred for local metro
+  ai_exposure: bonus_only  # not a filter requirement
+  min_seniority: mid  # e.g. 5+ years PM experience
+
+# Standard industry labels — use one per job in applications.yaml
+industry_labels:
+  - B2B SaaS
+  - B2C SaaS
+  - HR Tech / HCM SaaS
+  - Fintech / Payments
+  - Healthtech
+  - Insurtech
+  - GovTech / Public sector
+  - Legal / Justice tech
+  - Procurement / Supply chain SaaS
+  - Field service / Operations SaaS
+  - Industrial / Asset management SaaS
+  - Marketplace / Platform
+  - Media / Entertainment
+  - EdTech
+  - PropTech / Construction tech
+  - Other
+
+# Awareness only — never exclude these from search results
+industry_awareness:
+  prefer_to_avoid: []
+  actively_targeting: []
+
+# Resume fit — separate from industry_awareness (★ / ⚠)
+# Based on alignment with profile.resume_path. Never filters roles out.
+resume_fit:
+  flag_strong: "✓ strong resume fit"
+  flag_good: "✓ resume fit"
+  flag_stretch: "~ stretch fit"
+  levels:
+    strong: "Role maps cleanly to 2+ core resume themes with minimal gap"
+    good: "Clear overlap on role type + at least one core theme"
+    stretch: "Transferable PM/PO/BA skills but domain, seniority, or craft mismatch"
+    weak: "Little overlap — no flag shown"
+  core_themes:
+    - B2B SaaS platform product management (module ownership, roadmap, backlog)
+    - Enterprise onboarding, lifecycle, activation, and expansion
+    - Regulated or compliance-heavy environments
+    - Cross-functional delivery with eng, design, ops, and senior stakeholders
+    - Platform integrations, workflows, and multi-system handoffs
+    - Discovery-led prioritisation (interviews, workshops, data-informed decisions)
+  strong_signals:
+    - Product Manager or Senior Product Manager in B2B SaaS / platform company
+    - Enterprise customer base and module or platform scope
+    - Onboarding, lifecycle, workflow, or integration ownership
+  stretch_signals:
+    - Product Owner when user priority is PM
+    - Business Analyst when user priority is PM/PO
+    - B2C-only or non-SaaS product surface with weak enterprise overlap
+  proof_points: []  # Add your own resume highlights for agent context
+
+deduplication:
+  match_rules:
+    - exact_url
+    - ats_job_id
+    - company_title_location
+  normalize:
+    company: lowercase, strip legal suffixes (pty ltd, limited, inc)
+    title: lowercase, strip seniority noise only when comparing duplicates
+    location: map to buckets (local_metro, remote, other_city, other)
+  canonical_url_priority:
+    - company_ats
+    - gov_direct
+    - council_portal
+    - company_careers
+    - recruiter_direct
+    - niche_board
+    - aggregator
+  on_duplicate:
+    - keep canonical URL only in applications.yaml url field
+    - record alternate_urls in seen-jobs.yaml entry when useful
+    - note in daily run report: "Deduped: [aggregator] → [canonical]"
+    - never create a second applications.yaml row for the same role
+
+listing_freshness:
+  closed_signals:
+    - "no longer accepting applications"
+    - "this job ad has now expired"
+    - "this job has closed"
+    - "applications are no longer being accepted"
+    - "position has been filled"
+    - "listing has expired"
+    - "job is no longer available"
+    - "this vacancy is now closed"
+    - "404"
+    - "page not found"
+  date_fields:
+    - "applications close"
+    - "closing date"
+    - "apply by"
+    - "closes"
+    - "expires"
+  closing_soon_days: 7
+  require_open_proof: true
+  open_proof:
+    - active Apply / Apply now control (not disabled)
+    - absence of explicit expired/closed banner on the listing page
+    - HTTP 200 on canonical URL (or browser equivalent for SPAs)
+  board_hints:
+    seek: "Check for 'No longer accepting applications' badge; use browser if 403"
+    lever: "404 or 'page doesn't exist' = closed; Apply button should be present"
+    workable: "Closed roles often redirect or show 'This job is no longer available'"
+    ashby: "404 or missing Apply = closed"
+    aggregators: "Never save from aggregator alone — resolve to ATS and verify open there"
+
+qa_gate:
+  run_before_save: true
+  checks:
+    - dedup_all_candidates
+    - verify_listing_open
+    - verify_url_resolves
+    - spot_check_tracker
+    - reconcile_top_picks
+  on_failure:
+    new_role: "do not add to applications.yaml; log in QA gate section with reason"
+    existing_role: "set status closed in applications.yaml; log in Closed since last run"
+    top_pick: "replace with next eligible role that passes QA"
+
+search_sources:
+  order:
+    - seek
+    - linkedin
+    - company_boards
+    - niche_boards
+    - aggregators
+    - recruiters
+
+  boards:
+    - name: SEEK
+      id: seek
+      urls:
+        - https://www.seek.com.au/product-manager-jobs/in-All-Sydney-NSW
+        # Add saved searches for your metro and role titles
+
+    - name: LinkedIn
+      id: linkedin
+      urls:
+        - https://au.linkedin.com/jobs/search/?keywords=product%20manager&location=Australia
+
+    - name: Company boards
+      id: company_boards
+      notes: Check Lever/Workable/Greenhouse/Ashby for watch_companies entries
+
+    - name: We Love Product
+      id: niche_boards
+      urls:
+        - https://weloveproduct.co/au/
+
+    - name: Indeed Australia
+      id: aggregators
+      notes: High volume; always dedup against SEEK/LinkedIn/ATS. Resolve to canonical URL before saving.
+      urls:
+        - https://au.indeed.com/jobs?q=product+manager&l=Australia
+
+    - name: Employment Hero Jobs
+      id: recruiters
+      urls:
+        - https://employmenthero.com/jobs/product-manager/
+
+excluded_sources: []
+
+watch_companies:
+  - Example SaaS Co
+  - Example Healthtech Co
+
+tailoring_proof_points: []  # Optional resume highlights for fit scoring context

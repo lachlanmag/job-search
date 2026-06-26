@@ -1,0 +1,9 @@
+# Recruiter outreach tracker — runs alongside applications.yaml
+#
+# Status: outreach_sent | replied | cv_sent | registered | intro_made | dormant | no_response
+# Channel values: website_form | linkedin_dm | linkedin_connect | email | phone | in_person | referral
+#
+# Touchpoint action: initial_outreach | follow_up | sent_cv | call_scheduled | role_intro | other
+# Touchpoint response: null | received_reply | no_reply
+
+recruiters: []

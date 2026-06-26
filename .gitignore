@@ -1,0 +1,13 @@
+# Local job search data (Resume-Matcher pattern)
+data/*
+!data/.gitkeep
+
+# OS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+
+# Superpowers brainstorming scratch (local only)
+.superpowers/
