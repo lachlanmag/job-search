@@ -1,6 +1,6 @@
 # Roadmap
 
-Prioritized backlog for the job-search Cursor workflow. v1 (`job-search-daily`) is shipped; items below are tracked as [GitHub issues](https://github.com/lachlanmag/job-search/issues).
+Prioritized backlog for the job-search Cursor workflow. v1 skills (`job-search-daily`, `job-search-pipeline-review`) are shipped; items below are tracked as [GitHub issues](https://github.com/lachlanmag/job-search/issues).
 
 Issue numbers link to open tickets. Merged duplicates are noted inline.
 

@@ -2,7 +2,7 @@
 
 A Cursor-native workflow for sourcing PM/PO/BA roles and tracking applications. No app to deploy: open the repo in Cursor, configure local search criteria, and run a daily agent-driven search that updates YAML trackers and writes a daily report.
 
-**In scope:** job search, deduplication, listing freshness checks, fit scoring, application pipeline tracking.
+**In scope:** job search, deduplication, listing freshness checks, fit scoring, application pipeline tracking, pipeline triage and prioritization.
 
 **Out of scope:** resume tailoring, cover letters, PDF export (use any external tools you prefer after shortlisting).
 
@@ -30,7 +30,9 @@ bash scripts/init-data.sh
 
 ```
 job-search/
-  .cursor/skills/job-search-daily/   # Agent workflow (tracked)
+  .cursor/skills/
+    job-search-daily/                # Daily search workflow
+    job-search-pipeline-review/      # Pipeline triage and prioritization
   examples/                          # Templates to copy into data/
   data/                              # Your local state (gitignored)
   scripts/                           # init-data.sh, run-daily-search.sh
@@ -48,9 +50,10 @@ Following the same pattern as [Resume-Matcher](https://github.com/srbhr/Resume-M
 | `seen-jobs.yaml` | Dedup index |
 | `recruiters.yaml` | Recruiter outreach (optional) |
 | `daily-runs/YYYY-MM-DD.md` | Daily search reports |
+| `pipeline-reviews/YYYY-MM-DD.md` | Pipeline triage and prioritization reports |
 | `logs/` | CLI run logs |
 
-Nothing under `data/` is committed. Run `git status` after a daily search to confirm.
+Nothing under `data/` is committed. Run `git status` after a daily search or pipeline review to confirm.
 
 ## Running a daily search
 
@@ -76,6 +79,14 @@ launchctl load ~/Library/LaunchAgents/com.example.job-search-daily.plist
 ```
 
 Override run timezone: `JOB_SEARCH_TZ=Australia/Sydney bash scripts/run-daily-search.sh`
+
+## Reviewing your pipeline
+
+After daily searches build up `discovered` roles, triage and prioritize without running a new search:
+
+> Review my pipeline and tell me what to prioritize
+
+Writes a report to `data/pipeline-reviews/YYYY-MM-DD.md` with ranked apply targets, shortlist promotions, and listing verification. Trigger phrases: pipeline review, prioritize applications, `/pipeline-review`.
 
 ## Updating applications
 
