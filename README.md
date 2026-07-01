@@ -102,10 +102,14 @@ Writes a report to `data/pipeline-reviews/YYYY-MM-DD.md` with ranked apply targe
 Typical path from shortlist to interview prep:
 
 ```
-shortlist → company-research (saves JD + brief) → tailor externally → resume-feedback → apply → interview-prep
+# Standalone (default)
+shortlist → company-research → resume-feedback → apply → interview-prep
+
+# With Resume-Matcher (integrations.resume_matcher.enabled: true)
+shortlist → company-research → tailor via Resume-Matcher → resume-feedback → apply → interview-prep
 ```
 
-Point `profile.resume_path` at your master resume for fit scoring during search. Shortlisting via `update-application` or pipeline review saves the full JD to `data/jds/` and sets `jd_path` on the tracker row automatically.
+Point `profile.resume_path` at your master resume for fit scoring during search and for standalone resume feedback. Shortlisting via `update-application` or pipeline review saves the full JD to `data/jds/` and sets `jd_path` on the tracker row automatically.
 
 If you initialized `data/` before v1.1, re-run `bash scripts/init-data.sh` to create `jds/`, `company-research/`, `interview-prep/`, and `resume-feedback/` (safe to re-run; existing config files are not overwritten).
 
@@ -132,11 +136,15 @@ Trigger phrases: company brief, role brief, `/company-research`. Runs automatica
 
 ### Resume feedback (before apply)
 
-Reviews a **tailored resume JSON** against the job description. Does not rewrite the resume. Artifacts save to `data/resume-feedback/`.
+Reviews your resume against the job description. Does not rewrite the resume. Artifacts save to `data/resume-feedback/`.
 
-> Review my tailored resume for [Company]
+**Standalone (default):** Reviews markdown from `profile.resume_path` (or an override path you provide) against the JD. No Resume-Matcher or JSON required.
 
-Provide the saved JD path (`jd_path` on the tracker row, or user path) and tailored JSON (e.g. from [Resume-Matcher](https://github.com/srbhr/Resume-Matcher)). Trigger phrases: resume feedback, ATS review, `/resume-feedback`.
+**With Resume-Matcher:** Set `integrations.resume_matcher.enabled: true` in `data/config.yaml`, tailor via [Resume-Matcher](https://github.com/srbhr/Resume-Matcher), then provide the tailored JSON path (or inline JSON) for review.
+
+> Review my resume for [Company]
+
+For a shortlisted role, the JD comes from `jd_path` on the tracker row (or a path you provide). Trigger phrases: resume feedback, ATS review, `/resume-feedback`.
 
 ### Interview prep (on apply)
 
