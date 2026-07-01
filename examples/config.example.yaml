@@ -5,6 +5,7 @@ profile:
   resume_path: /path/to/your/master-resume.md  # local only; never commit
   location: Your City, State
   willing_to_relocate: false
+  output_language: English  # optional; language for company-research, interview-prep, resume-feedback
 
 role_priority:
   - Product Manager

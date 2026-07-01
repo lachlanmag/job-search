@@ -17,7 +17,7 @@ description: >-
 - Weekly review after one or more daily search runs
 - User says "review my pipeline", "prioritize applications", or `/pipeline-review`
 
-**Not this skill:** finding new listings (use `job-search-daily`), marking applied/rejected (use `update-application` when available, or manual tracker edit).
+**Not this skill:** finding new listings (use `job-search-daily`), marking applied/rejected (use `update-application`).
 
 ## Files (always read first)
 
@@ -159,7 +159,7 @@ Use `---` between major sections.
 - New `notes` on pass/deprioritize decisions
 - `resume_status` changes
 
-If user confirms promotions in chat, apply updates to `data/applications.yaml` immediately.
+If user confirms promotions in chat, apply updates to `data/applications.yaml` immediately. For each row promoted to `shortlisted`, **automatically run `company-research`** in the same session (role brief artifact + tracker `company_research` path).
 
 ### 8. Offer next actions
 
@@ -198,5 +198,4 @@ End with:
 
 - Searching job boards for new listings
 - Resume tailoring, cover letters, PDF export
-- Company deep-dives (future `company-research` skill)
-- Interview prep (future `interview-prep` skill)
+- Interview prep after apply (automatic via `update-application` → `interview-prep`)

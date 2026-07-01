@@ -156,12 +156,12 @@ Port the maintainer's `job-search-daily` skill with these adaptations:
 
 ## Roadmap (`docs/ROADMAP.md`)
 
-Structured backlog for v1+ (not implemented in initial release):
+Structured backlog for v1+. Shipped since initial release: `update-application`, `company-research`, `interview-prep`, `resume-feedback` (see [apply workflow](../../../README.md#apply-workflow) in README).
 
 | Area | Examples |
 |------|----------|
-| **Integrations** | Obsidian vault sync layer; optional Resume-Matcher hook docs |
-| **Skills** | `update-application`, interview prep, company research |
+| **Integrations** | Obsidian vault sync layer; Resume-Matcher hook docs ([#3](https://github.com/lachlanmag/job-search/issues/3)) |
+| **Skills** | `job-search-setup`, `recruiter-follow-up` |
 | **Config** | Multi-region presets; community source lists |
 | **Automation** | GitHub Action wrapper; notification webhooks |
 | **Data** | CSV export; SQLite if YAML outgrows flat files |

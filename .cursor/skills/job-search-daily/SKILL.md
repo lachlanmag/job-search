@@ -198,7 +198,7 @@ End with:
 - Top 3 roles to apply to this week
 - If `discovered` count is high (roughly 5+), suggest running `job-search-pipeline-review` to triage and pick apply targets for the week
 - Reminder to save job descriptions to a local path when shortlisting (user's choice; not in repo)
-- Reminder: user updates `status: applied` and `applied: YYYY-MM-DD` after submitting
+- Reminder: use `update-application` to set `applied` (chains `interview-prep` automatically) or shortlist via pipeline review (chains `company-research`)
 
 ## Status values
 

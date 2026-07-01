@@ -7,6 +7,9 @@
 # channel (optional, set when applied): direct | company_site | seek | linkedin | recruiter | referral
 # recruiter_id: optional link to data/recruiters.yaml id when placed via recruiter
 # resume_status (optional): none | draft | ready — materials prepared but not yet submitted
+# jd_path (optional): local path to saved job description markdown (not in repo)
+# company_research (optional): path to role brief artifact after shortlist (set by company-research skill)
+# interview_prep (optional): path to prep artifact after apply (set by interview-prep skill)
 
 applications:
   # Example row (delete or replace when you start tracking):
@@ -21,7 +24,11 @@ applications:
   #   role_type: Product Manager
   #   url: https://jobs.lever.co/acme/example-job-id
   #   source: daily search
-  #   status: discovered
+  #   status: shortlisted
   #   discovered: 2026-06-26
   #   applied: null
+  #   jd_path: /path/to/saved-jds/acme-pm.md
+  #   resume_status: draft
+  #   company_research: data/company-research/2026-06-26-acme-corp.md
+  #   interview_prep: null
   #   notes: "Example only — remove before first real run"

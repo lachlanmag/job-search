@@ -1,6 +1,6 @@
 # Roadmap
 
-Prioritized backlog for the job-search Cursor workflow. v1 skills (`job-search-daily`, `job-search-pipeline-review`) are shipped; items below are tracked as [GitHub issues](https://github.com/lachlanmag/job-search/issues).
+Prioritized backlog for the job-search Cursor workflow. v1 search and triage skills (`job-search-daily`, `job-search-pipeline-review`) and v1.1 application workflow skills (`update-application`, `company-research`, `interview-prep`, `resume-feedback`) are shipped. Remaining items are tracked as [GitHub issues](https://github.com/lachlanmag/job-search/issues).
 
 Issue numbers link to open tickets. Merged duplicates are noted inline.
 
@@ -11,9 +11,10 @@ Issue numbers link to open tickets. Merged duplicates are noted inline.
 | `job-search-daily` | **Shipped** | — | Daily search, dedup, QA gate, fit scoring, tracker updates, daily report |
 | `job-search-pipeline-review` | **Shipped** | — | Triage open pipeline, re-verify listings, rank and recommend shortlist/apply priorities |
 | `job-search-setup` | Planned | [#1](https://github.com/lachlanmag/job-search/issues/1) | Conversational onboarding; writes gitignored `data/` YAML |
-| `update-application` | Planned | [#5](https://github.com/lachlanmag/job-search/issues/5) | Mark applied, rejected, interview stages, and other pipeline updates |
-| `company-research` | Planned | [#6](https://github.com/lachlanmag/job-search/issues/6) | Pre-interview brief from company site + JD |
-| `interview-prep` | Planned | [#7](https://github.com/lachlanmag/job-search/issues/7) | Talking points from JD + local resume |
+| `update-application` | **Shipped** | [#5](https://github.com/lachlanmag/job-search/issues/5) | Pipeline status updates; chains research on shortlist and prep on apply |
+| `company-research` | **Shipped** | [#6](https://github.com/lachlanmag/job-search/issues/6) | Role brief from company site + JD (auto on shortlist) |
+| `interview-prep` | **Shipped** | [#7](https://github.com/lachlanmag/job-search/issues/7) | Talking points from JD + resume (auto on apply) |
+| `resume-feedback` | **Shipped** | — | Tailored resume review vs JD before submit |
 | `recruiter-follow-up` | Planned | [#8](https://github.com/lachlanmag/job-search/issues/8) | Touchpoint logging aligned with `data/recruiters.yaml` |
 
 ---
@@ -26,7 +27,7 @@ Core onboarding and day-to-day tracker updates.
 |---|------|-------|-------|
 | 1 | **Setup skill** | [#1](https://github.com/lachlanmag/job-search/issues/1) | Guided chat flow replaces hand-editing `config.yaml`. Includes launchd plist substitution ([#21](https://github.com/lachlanmag/job-search/issues/21)) as optional sub-task. |
 | 2 | **Config validation** | [#14](https://github.com/lachlanmag/job-search/issues/14) | Health check script + YAML schema validation (merged from [#18](https://github.com/lachlanmag/job-search/issues/18)). Run after setup or before daily search. |
-| 3 | **Update-application skill** | [#5](https://github.com/lachlanmag/job-search/issues/5) | Structured pipeline updates; replaces manual `applications.yaml` edits. |
+| 3 | ~~**Update-application skill**~~ | [#5](https://github.com/lachlanmag/job-search/issues/5) | Shipped with `company-research` + `interview-prep` chaining. |
 
 ---
 
@@ -50,13 +51,14 @@ Quality, secondary skills, integrations, and contributor docs.
 |---|------|-------|-------|
 | 7 | **Configurable tier scoring** | [#22](https://github.com/lachlanmag/job-search/issues/22) | Move tier criteria from skill into `config.yaml`. |
 | 8 | **Dedup/freshness test suite** | [#19](https://github.com/lachlanmag/job-search/issues/19) | Lock behavior for rules in skill + config. |
-| 9 | **Company-research skill** | [#6](https://github.com/lachlanmag/job-search/issues/6) | Pre-interview brief. |
-| 10 | **Interview-prep skill** | [#7](https://github.com/lachlanmag/job-search/issues/7) | Pairs with company-research. |
+| 9 | ~~**Company-research skill**~~ | [#6](https://github.com/lachlanmag/job-search/issues/6) | Shipped. |
+| 10 | ~~**Interview-prep skill**~~ | [#7](https://github.com/lachlanmag/job-search/issues/7) | Shipped. |
 | 11 | **CSV export** | [#11](https://github.com/lachlanmag/job-search/issues/11) | One-off export of `applications.yaml`. |
-| 12 | **Resume-Matcher hook docs** | [#3](https://github.com/lachlanmag/job-search/issues/3) | Shortlist → external tailoring handoff. |
+| 12 | **Resume-Matcher hook docs** | [#3](https://github.com/lachlanmag/job-search/issues/3) | Shortlist → external tailoring handoff; document expected JSON shape for `resume-feedback`. |
 | 13 | **Contributing guide** | [#15](https://github.com/lachlanmag/job-search/issues/15) | Needed before community PRs on source catalog (#23). |
 | 14 | **Notification webhooks** | [#4](https://github.com/lachlanmag/job-search/issues/4) | Slack/email on daily run completion or top-pick changes. |
 | 15 | **Launchd plist automation** | [#21](https://github.com/lachlanmag/job-search/issues/21) | Auto `__REPO_ROOT__` substitution; may land inside #1. |
+| 16 | **Resume-feedback tracker integration** | — | `update-application` sets `resume_status: ready` when user confirms apply-ready after feedback. |
 
 ---
 
