@@ -2,9 +2,9 @@
 
 A Cursor-native workflow for sourcing PM/PO/BA roles and tracking applications. No app to deploy: open the repo in Cursor, configure local search criteria, and run a daily agent-driven search that updates YAML trackers and writes a daily report.
 
-**In scope:** job search, deduplication, listing freshness checks, fit scoring, application pipeline tracking, pipeline triage and prioritization.
+**In scope:** job search, deduplication, listing freshness checks, fit scoring, application pipeline tracking, pipeline triage and prioritization, role briefs on shortlist, tailored resume review before apply, interview prep on submit.
 
-**Out of scope:** resume tailoring, cover letters, PDF export (use any external tools you prefer after shortlisting).
+**Out of scope:** resume tailoring or rewriting, cover letters, PDF export (tailor externally, then run `resume-feedback` for review).
 
 ## Prerequisites
 
@@ -23,6 +23,7 @@ bash scripts/init-data.sh
 1. Edit `data/config.yaml`:
    - Set `profile.resume_path` to your local master resume (markdown, outside this repo)
    - Set `profile.location`, role priorities, and search source URLs for your market
+   - Optional: `profile.output_language` for research, prep, and feedback artifacts
 2. Open the repo folder in Cursor
 3. In chat: **Run the daily job search**
 
@@ -33,6 +34,10 @@ job-search/
   .cursor/skills/
     job-search-daily/                # Daily search workflow
     job-search-pipeline-review/      # Pipeline triage and prioritization
+    update-application/              # Status updates; chains research + prep
+    company-research/                # Role brief (auto on shortlist)
+    interview-prep/                  # Talking points (auto on apply)
+    resume-feedback/                 # Tailored resume review before submit
   examples/                          # Templates to copy into data/
   data/                              # Your local state (gitignored)
   scripts/                           # init-data.sh, run-daily-search.sh
@@ -51,6 +56,10 @@ Following the same pattern as [Resume-Matcher](https://github.com/srbhr/Resume-M
 | `recruiters.yaml` | Recruiter outreach (optional) |
 | `daily-runs/YYYY-MM-DD.md` | Daily search reports |
 | `pipeline-reviews/YYYY-MM-DD.md` | Pipeline triage and prioritization reports |
+| `company-research/` | Role briefs (auto when shortlisted) |
+| `jds/` | Full job descriptions (auto when shortlisted) |
+| `interview-prep/` | Interview prep (auto when applied) |
+| `resume-feedback/` | Tailored resume review artifacts |
 | `logs/` | CLI run logs |
 
 Nothing under `data/` is committed. Run `git status` after a daily search or pipeline review to confirm.
@@ -88,17 +97,54 @@ After daily searches build up `discovered` roles, triage and prioritize without 
 
 Writes a report to `data/pipeline-reviews/YYYY-MM-DD.md` with ranked apply targets, shortlist promotions, and listing verification. Trigger phrases: pipeline review, prioritize applications, `/pipeline-review`.
 
-## Updating applications
+## Apply workflow
 
-After you apply, ask Cursor:
+Typical path from shortlist to interview prep:
 
-> Update data/applications.yaml — set [company] to applied on [date]
+```
+shortlist → company-research (saves JD + brief) → tailor externally → resume-feedback → apply → interview-prep
+```
 
-Or edit `data/applications.yaml` directly. Status values: `discovered`, `shortlisted`, `applied`, `interview`, `rejected`, `withdrawn`, `offer`, `closed`.
+Point `profile.resume_path` at your master resume for fit scoring during search. Shortlisting via `update-application` or pipeline review saves the full JD to `data/jds/` and sets `jd_path` on the tracker row automatically.
 
-## Resume and tailoring
+If you initialized `data/` before v1.1, re-run `bash scripts/init-data.sh` to create `jds/`, `company-research/`, `interview-prep/`, and `resume-feedback/` (safe to re-run; existing config files are not overwritten).
 
-This repo does not handle resumes. Point `profile.resume_path` at your master resume for fit scoring during search. After shortlisting, save job descriptions and run your preferred tailoring workflow separately.
+### Updating applications
+
+Use `update-application` so status changes chain follow-on work automatically:
+
+| Action | Command example | Chained skill |
+|--------|-----------------|---------------|
+| Shortlist | `Shortlist [Company]` | `company-research` (saves JD + role brief) |
+| Apply | `Set [Company] to applied on [date]` | `interview-prep` (talking points) |
+
+Pipeline review also runs `company-research` when you confirm a `discovered` → `shortlisted` promotion.
+
+Status values: `discovered`, `shortlisted`, `applied`, `interview`, `rejected`, `withdrawn`, `offer`, `closed`.
+
+### Company research (on shortlist)
+
+Produces a role brief under `data/company-research/`, saves the full JD under `data/jds/`, and sets `company_research` and `jd_path` on the tracker row.
+
+> Research [Company] for this role
+
+Trigger phrases: company brief, role brief, `/company-research`. Runs automatically when you shortlist via `update-application` or pipeline review.
+
+### Resume feedback (before apply)
+
+Reviews a **tailored resume JSON** against the job description. Does not rewrite the resume. Artifacts save to `data/resume-feedback/`.
+
+> Review my tailored resume for [Company]
+
+Provide the saved JD path (`jd_path` on the tracker row, or user path) and tailored JSON (e.g. from [Resume-Matcher](https://github.com/srbhr/Resume-Matcher)). Trigger phrases: resume feedback, ATS review, `/resume-feedback`.
+
+### Interview prep (on apply)
+
+Produces talking points under `data/interview-prep/` and sets `interview_prep` on the tracker row.
+
+> Interview prep for [Company]
+
+Trigger phrases: talking points, `/interview-prep`. Runs automatically when you set status to `applied` via `update-application`.
 
 ## Roadmap
 
@@ -106,4 +152,4 @@ See [docs/ROADMAP.md](docs/ROADMAP.md) for planned skills, Obsidian compatibilit
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).

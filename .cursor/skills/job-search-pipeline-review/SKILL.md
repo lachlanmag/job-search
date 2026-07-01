@@ -17,7 +17,7 @@ description: >-
 - Weekly review after one or more daily search runs
 - User says "review my pipeline", "prioritize applications", or `/pipeline-review`
 
-**Not this skill:** finding new listings (use `job-search-daily`), marking applied/rejected (use `update-application` when available, or manual tracker edit).
+**Not this skill:** finding new listings (use `job-search-daily`), marking applied/rejected (use `update-application`).
 
 ## Files (always read first)
 
@@ -37,10 +37,10 @@ Review roles with status:
 
 | Status | Include in review |
 |--------|-------------------|
-| `discovered` | Yes — primary triage target |
-| `shortlisted` | Yes — prioritize apply order |
-| `applied` | Summary only — note stale applications (>14 days, no response) |
-| `interview` | Summary only — flag prep needs |
+| `discovered` | Yes: primary triage target |
+| `shortlisted` | Yes: prioritize apply order |
+| `applied` | Summary only: note stale applications (>14 days, no response) |
+| `interview` | Summary only: flag prep needs |
 | `rejected`, `withdrawn`, `offer`, `closed` | Exclude |
 
 ## Review workflow
@@ -58,7 +58,7 @@ For every `discovered` and `shortlisted` row, open the **canonical** `url` and a
 | Outcome | Action |
 |---------|--------|
 | Closed / expired | Mark for `status: closed` with reason |
-| Closing within `closing_soon_days` | Flag **closing soon** — boost priority |
+| Closing within `closing_soon_days` | Flag **closing soon**: boost priority |
 | Still open | Record `listing_verified: YYYY-MM-DD` |
 
 Use browser for SPAs that block fetch. Resolve aggregator URLs to employer ATS when needed.
@@ -69,7 +69,7 @@ Use browser for SPAs that block fetch. Resolve aggregator URLs to employer ATS w
 
 Use the same signals as daily search (do not invent new tiers):
 
-**Tier** (from `job-search-daily` — local metro + role + industry + work model):
+**Tier** (from `job-search-daily`: local metro + role + industry + work model):
 
 | Tier | Criteria |
 |------|----------|
@@ -79,7 +79,7 @@ Use the same signals as daily search (do not invent new tiers):
 | **Tier 4** | Remote (country) + PM/PO (outside local metro) |
 | **Tier 5** | Remote (country) + BA |
 
-**Flags** (independent — combine as needed):
+**Flags** (independent: combine as needed):
 
 | Flag | Source |
 |------|--------|
@@ -105,9 +105,9 @@ Re-score `resume_fit` when stale, missing, or resume changed since `discovered` 
 
 Produce three lists:
 
-1. **Apply this week** — top 3–5 open roles (mix of `shortlisted` ready-to-apply and high-tier `discovered` worth promoting). Each needs: company, title, tier, flags, closes date, one-line why now, direct URL, suggested action (`apply`, `shortlist then apply`, `research company first`).
-2. **Shortlist candidates** — `discovered` roles worth promoting to `shortlisted` (not yet in apply-this-week if user bandwidth is limited).
-3. **Deprioritize / pass** — open roles that are stretch/weak fit, wrong role type vs `role_priority`, or low tier with no urgency. Suggest `closed` only if listing expired; otherwise leave as `discovered` with "pass for now" note.
+1. **Apply this week**: top 3–5 open roles (mix of `shortlisted` ready-to-apply and high-tier `discovered` worth promoting). Each needs: company, title, tier, flags, closes date, one-line why now, direct URL, suggested action (`apply`, `shortlist then apply`, `research company first`).
+2. **Shortlist candidates**: `discovered` roles worth promoting to `shortlisted` (not yet in apply-this-week if user bandwidth is limited).
+3. **Deprioritize / pass**: open roles that are stretch/weak fit, wrong role type vs `role_priority`, or low tier with no urgency. Suggest `closed` only if listing expired; otherwise leave as `discovered` with "pass for now" note.
 
 **Tie-breakers** (in order): tier → resume fit (strong > good > stretch) → closing soon → ★ industry → lower tier number wins → `shortlisted` over `discovered`.
 
@@ -130,18 +130,18 @@ Create or overwrite:
 
 #### Above the fold
 
-1. **Summary** — pipeline counts, listings closed this review, **Apply this week** (numbered list), bandwidth note
-2. **Ranked open pipeline** — table: Rank, Status, Company, Title, Tier, Flags, Closes, Listing, Recommended action
-3. **Shortlist promotions** — `discovered` → `shortlisted` recommendations with rationale
-4. **Apply queue** — current `shortlisted` rows in suggested submit order
-5. **Needs attention** — stale `applied`, upcoming interviews, missing fields
-6. **Pass for now** — roles to leave as `discovered` without action
+1. **Summary**: pipeline counts, listings closed this review, **Apply this week** (numbered list), bandwidth note
+2. **Ranked open pipeline**: table: Rank, Status, Company, Title, Tier, Flags, Closes, Listing, Recommended action
+3. **Shortlist promotions**: `discovered` → `shortlisted` recommendations with rationale
+4. **Apply queue**: current `shortlisted` rows in suggested submit order
+5. **Needs attention**: stale `applied`, upcoming interviews, missing fields
+6. **Pass for now**: roles to leave as `discovered` without action
 
 #### Below the fold
 
-7. **Closed this review** — roles verified closed (pending tracker update)
-8. **Listing verification log** — URL, result, date checked
-9. **Score changes** — any `resume_fit` re-scores vs tracker
+7. **Closed this review**: roles verified closed (pending tracker update)
+8. **Listing verification log**: URL, result, date checked
+9. **Score changes**: any `resume_fit` re-scores vs tracker
 
 Use `---` between major sections.
 
@@ -159,7 +159,7 @@ Use `---` between major sections.
 - New `notes` on pass/deprioritize decisions
 - `resume_status` changes
 
-If user confirms promotions in chat, apply updates to `data/applications.yaml` immediately.
+If user confirms promotions in chat, apply updates to `data/applications.yaml` immediately. For each row promoted to `shortlisted`, **automatically run `company-research`** in the same session (role brief artifact + tracker `company_research` path).
 
 ### 8. Offer next actions
 
@@ -167,7 +167,7 @@ End with:
 
 - Numbered apply order for the week
 - Which roles to promote to `shortlisted` (if not already done)
-- Reminder to save JDs when shortlisting (user path; not in repo)
+- Reminder: promoting to `shortlisted` chains `company-research` (saves JD to `data/jds/` + role brief)
 - Optional: "Run daily job search" if pipeline is thin after closing stale roles
 
 ## Output principles
@@ -175,7 +175,7 @@ End with:
 - **Compare roles relative to each other**, not just absolute fit scores.
 - **Urgency beats perfect fit** when closing dates are near and fit is at least `good`.
 - **Never recommend apply** on unverified or closed listings.
-- **Be decisive** — rank everything in scope; avoid ties without explanation.
+- **Be decisive**: rank everything in scope; avoid ties without explanation.
 - Flag ⚠ industries explicitly in rationale; let the user decide.
 
 ## Manual commands
@@ -188,7 +188,7 @@ End with:
 
 **After daily search (typical weekly rhythm):**
 
-> Run pipeline review — I want to triage discovered roles and pick apply targets for this week
+> Run pipeline review. I want to triage discovered roles and pick apply targets for this week
 
 **Schedule (optional, with `/loop`):**
 
@@ -198,5 +198,4 @@ End with:
 
 - Searching job boards for new listings
 - Resume tailoring, cover letters, PDF export
-- Company deep-dives (future `company-research` skill)
-- Interview prep (future `interview-prep` skill)
+- Interview prep after apply (automatic via `update-application` → `interview-prep`)
