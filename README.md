@@ -40,7 +40,7 @@ job-search/
     resume-feedback/                 # Resume review vs JD before submit
   examples/                          # Templates to copy into data/
   data/                              # Your local state (gitignored)
-  scripts/                           # init-data.sh, run-daily-search.sh
+  scripts/                           # init-data.sh, reconcile-config.sh, run-daily-search.sh
   docs/ROADMAP.md                    # Future work and gaps
 ```
 
@@ -112,6 +112,15 @@ shortlist → company-research → tailor via Resume-Matcher → resume-feedback
 Point `profile.resume_path` at your master resume for fit scoring during search and for standalone resume feedback. Shortlisting via `update-application` or pipeline review saves the full JD to `data/jds/` and sets `jd_path` on the tracker row automatically.
 
 If you initialized `data/` before v1.1, re-run `bash scripts/init-data.sh` to create `jds/`, `company-research/`, `interview-prep/`, and `resume-feedback/` (safe to re-run; existing config files are not overwritten).
+
+When the example template gains new keys (e.g. `integrations.resume_matcher.enabled`), merge them into your existing `data/config.yaml` without overwriting your values:
+
+```bash
+bash scripts/reconcile-config.sh --dry-run   # preview keys to add
+bash scripts/reconcile-config.sh             # apply (creates a timestamped .bak backup)
+```
+
+Requires `pip3 install ruamel.yaml` (preserves YAML comments).
 
 ### Updating applications
 

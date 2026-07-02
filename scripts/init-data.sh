@@ -29,6 +29,7 @@ copy_if_missing "$EXAMPLES/recruiters.example.yaml" "$DATA/recruiters.yaml"
 echo
 echo "Next steps:"
 echo "  1. Edit data/config.yaml: set profile.resume_path, location, and search sources"
+echo "     (after upgrades: bash scripts/reconcile-config.sh to add new example keys)"
 echo "  2. Open this repo in Cursor"
 echo "  3. Run: Run the daily job search"
 echo "  4. After shortlisting: company-research runs automatically (or /company-research)"
