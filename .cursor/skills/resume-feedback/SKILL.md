@@ -4,7 +4,9 @@ description: >-
   Review a tailored resume JSON against a job description for role fit, ATS
   readiness, and hiring recommendation. Use when the user asks for resume
   feedback, ATS review, tailoring quality check, hiring review of a tailored
-  resume, or runs /resume-feedback.
+  resume, review my tailored resume, ATS review for [Company], check my resume
+  against the JD, tailoring quality check, is this resume ready to submit, or
+  runs /iago-feedback or /resume-feedback.
 disable-model-invocation: true
 ---
 
@@ -14,10 +16,10 @@ disable-model-invocation: true
 
 - User wants HR-style feedback on a **tailored** resume for a specific role
 - User asks for ATS readiness, keyword coverage, or tailoring quality review
-- User says "review my tailored resume", "resume feedback", or `/resume-feedback`
+- User says "review my tailored resume", "resume feedback", "ATS review for [Company]", "check my resume against the JD", "tailoring quality check", "is this resume ready to submit", `/iago-feedback`, or `/resume-feedback`
 - After tailoring (e.g. Resume-Matcher) before submitting an application
 
-**Not this skill:** master resume fit during search (use `job-search-daily` / `job-search-pipeline-review`), cover letters, or PDF export.
+**Not this skill:** master resume fit during search (use `iago-daily` / `iago-pipeline-review`), cover letters, or PDF export.
 
 ## Files (read as needed)
 
