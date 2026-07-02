@@ -26,7 +26,7 @@ Missing signals, vague claims, risk areas, and what is unclear. Call out bullets
 
 ## Tailoring quality
 
-Assess how well this tailored resume aligns with the job description without overreach:
+Assess how well this resume aligns with the job description without overreach:
 
 - **Strong tailoring:** JD terms backed by real outcomes or scope in experience bullets.
 - **Weak tailoring:** keywords in summary/skills only, or phrasing that parallels the JD without proof.
