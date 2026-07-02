@@ -128,7 +128,7 @@ Port the maintainer's `iago-daily` skill with these adaptations:
 1. **Paths**: all reads/writes use `data/` at repo root (no Obsidian vault paths).
 2. **Profile**: `config.yaml` → `profile.resume_path` for fit scoring (local file only).
 3. **No resume tooling in-repo**: after shortlisting, skill suggests saving the JD to a user-chosen path; no in-repo tailoring step.
-4. **Timezone**: script defaults to `Australia/Brisbane`; override via `JOB_SEARCH_TZ`.
+4. **Timezone**: script defaults to `Australia/Brisbane`; override via `IAGO_TZ`.
 5. **Core loop unchanged:**
    - Load state
    - Search sources in `search_sources.order` (skip `excluded_sources`)
